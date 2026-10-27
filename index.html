@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ Practice · Professional Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f0f4f9;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 2rem 1rem 2rem 1rem;
+            color: #1e293b;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        /* Watermark / Designer credit */
+        .watermark {
+            position: fixed;
+            bottom: 18px;
+            right: 24px;
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(6px);
+            padding: 0.45rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #0d2f52;
+            box-shadow: 0 4px 12px rgba(0, 30, 60, 0.08);
+            border: 1px solid #d9e4f0;
+            z-index: 999;
+            letter-spacing: 0.3px;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .watermark i {
+            color: #1e9b4b;
+            font-size: 0.9rem;
+        }
+
+        .watermark strong {
+            font-weight: 700;
+            color: #0a2a4a;
+            margin-left: 2px;
+        }
+
+        .watermark a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .watermark:hover {
+            background: #ffffff;
+            box-shadow: 0 6px 18px rgba(0, 30, 60, 0.12);
+        }
+
+        .quiz-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #0f2b5c, #1e4a8b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #475569;
+            background: #ffffffd9;
+            display: inline-block;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+
+        .section-card {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            padding: 1.8rem 2rem;
+            margin-bottom: 2.5rem;
+            transition: box-shadow 0.2s;
+            border: 1px solid #e9eef4;
+            position: relative;
+        }
+
+        .section-card:hover {
+            box-shadow: 0 20px 30px -10px rgba(0, 35, 70, 0.08);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #dbe7f5;
+            color: #0a2a4a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #2a6eb0;
+            font-size: 1.4rem;
+        }
+
+        .question-item {
+            margin-bottom: 1.8rem;
+            padding-bottom: 1.2rem;
+            border-bottom: 1px solid #edf2f9;
+        }
+
+        .question-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            color: #0f2b4b;
+            display: flex;
+            align-items: baseline;
+            gap: 0.6rem;
+        }
+
+        .q-num {
+            background: #e2eaf5;
+            color: #1a4c8c;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 30px;
+            min-width: 38px;
+            text-align: center;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            margin-left: 3.2rem;
+        }
+
+        @media (max-width: 650px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+                margin-left: 0;
+            }
+            .section-card {
+                padding: 1.4rem;
+            }
+            .question-text {
+                font-size: 1rem;
+            }
+            .watermark {
+                bottom: 12px;
+                right: 12px;
+                font-size: 0.75rem;
+                padding: 0.35rem 1rem;
+            }
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #f9fcff;
+            border: 1.5px solid #d9e4f0;
+            border-radius: 14px;
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            font-size: 0.98rem;
+            font-weight: 500;
+            color: #1e3a5f;
+            user-select: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.01);
+        }
+
+        .option:hover {
+            background: #eef5ff;
+            border-color: #a8c4e0;
+            transform: translateY(-1px);
+        }
+
+        .option .letter {
+            font-weight: 700;
+            color: #1f5d9e;
+            background: #e1ecfa;
+            width: 26px;
+            height: 26px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .option.selected-correct {
+            background: #e2f7e9;
+            border-color: #1e9b4b;
+            color: #0a4b23;
+            box-shadow: 0 2px 8px rgba(30, 155, 75, 0.15);
+        }
+
+        .option.selected-correct .letter {
+            background: #1e9b4b;
+            color: white;
+        }
+
+        .option.selected-incorrect {
+            background: #fce9e9;
+            border-color: #c73535;
+            color: #7a1a1a;
+            box-shadow: 0 2px 8px rgba(199, 53, 53, 0.12);
+        }
+
+        .option.selected-incorrect .letter {
+            background: #c73535;
+            color: white;
+        }
+
+        .option.disabled {
+            pointer-events: none;
+            opacity: 0.95;
+            cursor: default;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 2.5rem;
+            font-size: 0.9rem;
+            color: #64748b;
+            padding: 1.2rem;
+            background: #ffffffc7;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
+            border: 1px solid #e2eaf5;
+        }
+
+        .footer-note i {
+            color: #2a6eb0;
+            margin-right: 6px;
+        }
+
+        /* subtle watermark on each section (optional) */
+        .section-card::after {
+            content: "A.Qadeer";
+            position: absolute;
+            bottom: 10px;
+            right: 18px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #b8c9dd;
+            opacity: 0.55;
+            letter-spacing: 0.5px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Watermark / Designer credit (fixed bottom-right) -->
+    <div class="watermark">
+        <i class="fas fa-pen-fancy"></i>
+        <span>Design by <strong>A.Qadeer</strong></span>
+    </div>
+
+    <div class="quiz-container">
+        <div class="header">
+            <h1>MCQ Practice Test</h1>
+            <p><i class="fas fa-check-circle" style="color: #1e9b4b; margin-right: 6px;"></i> Select an answer – green means correct, red means incorrect</p>
+        </div>
+
+        <!-- Sections injected by JavaScript -->
+        <div id="quiz-root"></div>
+
+        <div class="footer-note">
+            <i class="fas fa-lightbulb"></i> Click any option to instantly check correctness. Correct fills green, incorrect fills red.
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ------------------------------------------------------------
+            // 1. DATA: all 100 questions with correct answers
+            // ------------------------------------------------------------
+            const sections = [
+                {
+                    title: "Section A — Geometry (Q1–Q10)",
+                    questions: [
+                        { q: "Two supplementary angles are in the ratio 2:3. The larger angle is:", options: ["72°", "108°", "120°", "90°"], correct: 1 },
+                        { q: "The sum of the interior angles of a 12-sided polygon is:", options: ["1620°", "1800°", "1980°", "2160°"], correct: 1 },
+                        { q: "The area of a circle is 154 cm². Using π=22/7, its radius is:", options: ["14 cm", "49 cm", "7 cm", "11 cm"], correct: 2 },
+                        { q: "The diagonal of a rectangle measuring 9 m by 12 m is:", options: ["13 m", "15 m", "18 m", "21 m"], correct: 1 },
+                        { q: "The exterior angle of a regular polygon is 24°. The number of sides is:", options: ["12", "15", "18", "24"], correct: 1 },
+                        { q: "Two similar triangles have corresponding sides in the ratio 3:5. If the smaller triangle has an area of 54 cm², the larger triangle's area is:", options: ["90 cm²", "120 cm²", "150 cm²", "270 cm²"], correct: 2 },
+                        { q: "The circumference of a circle is 44 cm. Its area, using π=22/7, is:", options: ["77 cm²", "144 cm²", "154 cm²", "308 cm²"], correct: 2 },
+                        { q: "Two parallel lines are cut by a transversal. If one interior angle is 68°, its alternate interior angle is:", options: ["22°", "68°", "112°", "136°"], correct: 1 },
+                        { q: "A triangle has side lengths 7 cm, 24 cm and 25 cm. Its area is:", options: ["72 cm²", "84 cm²", "96 cm²", "168 cm²"], correct: 1 },
+                        { q: "The radius of a circle is increased by 20%. The percentage increase in its area is:", options: ["20%", "40%", "44%", "48%"], correct: 2 }
+                    ]
+                },
+                {
+                    title: "Section B — Sets and Set Operations (Q11–Q20)",
+                    questions: [
+                        { q: "If A={1,2,3,4} and B={3,4,5,6}, then A∪B contains:", options: ["2 elements", "4 elements", "6 elements", "8 elements"], correct: 2 },
+                        { q: "If n(A)=35, n(B)=28 and n(A∩B)=12, then n(A∪B) is:", options: ["39", "51", "63", "75"], correct: 1 },
+                        { q: "A universal set has 80 elements and set A has 37 elements. The number of elements in A' is:", options: ["37", "43", "53", "117"], correct: 1 },
+                        { q: "If A⊆B, which statement must be true?", options: ["A∩B=∅", "A∪B=A", "A∩B=A", "A=B'"], correct: 2 },
+                        { q: "If n(A)=20, n(B)=18, and n(A∪B)=30, then n(A∩B) is:", options: ["6", "8", "10", "12"], correct: 1 },
+                        { q: "If A={a,b,c}, the number of subsets of A is:", options: ["3", "6", "8", "9"], correct: 2 },
+                        { q: "If A={1,2,3} and B={3,4,5}, then A−B is:", options: ["{3}", "{1,2}", "{4,5}", "{1,2,3,4,5}"], correct: 1 },
+                        { q: "Out of 100 students, 60 study Mathematics, 45 study Physics, and 25 study both. How many study neither subject?", options: ["10", "15", "20", "25"], correct: 2 },
+                        { q: "De Morgan's law states that (A∪B)' =", options: ["A'∪B'", "A'∩B'", "A∩B", "A−B"], correct: 1 },
+                        { q: "If A and B are disjoint sets, n(A)=17 and n(B)=23, then n(A∪B) is:", options: ["6", "23", "40", "391"], correct: 2 }
+                    ]
+                },
+                {
+                    title: "Section C — Relations, Functions and Graphs (Q21–Q30)",
+                    questions: [
+                        { q: "If f(x)=3x²−2x+1, then f(−2) is:", options: ["9", "13", "17", "21"], correct: 2 },
+                        { q: "The domain of f(x)=1/(x−5) is:", options: ["All real numbers", "All real numbers except 0", "All real numbers except 5", "x>5 only"], correct: 2 },
+                        { q: "The range of f(x)=x², for real x, is:", options: ["All real numbers", "y≥0", "y>0", "y≤0"], correct: 1 },
+                        { q: "The slope of the line passing through (2,3) and (6,11) is:", options: ["1", "2", "3", "4"], correct: 1 },
+                        { q: "The equation of a line with slope 3 passing through (1,4) is:", options: ["y=3x+1", "y=3x−1", "y=x+3", "y=4x−3"], correct: 0 },
+                        { q: "If f(x)=2x+1 and g(x)=x², then (g∘f)(2) equals:", options: ["9", "16", "25", "36"], correct: 2 },
+                        { q: "Which of the following relations on {1,2,3} is reflexive?", options: ["{(1,1),(2,2)}", "{(1,1),(2,2),(3,3)}", "{(1,2),(2,3),(3,1)}", "{(1,2),(2,1)}"], correct: 1 },
+                        { q: "The vertex of the parabola y=(x−3)²+2 is:", options: ["(−3,2)", "(3,−2)", "(3,2)", "(−3,−2)"], correct: 2 },
+                        { q: "If f(x)=5x−7, then f⁻¹(x) is:", options: ["(x−7)/5", "(x+7)/5", "5x+7", "5/(x+7)"], correct: 1 },
+                        { q: "The graph of y=|x| is:", options: ["A straight horizontal line", "A downward-opening parabola", "A V-shaped graph with vertex at (0,0)", "A circle"], correct: 2 }
+                    ]
+                },
+                {
+                    title: "Section D — Exponents, Factoring and Algebra (Q31–Q40)",
+                    questions: [
+                        { q: "Simplify 2³×2⁻⁵.", options: ["4", "1/4", "−4", "1/8"], correct: 3 },
+                        { q: "Simplify (x³y⁻²)² / (x⁻¹y³), where x,y≠0.", options: ["x⁵/y", "x⁷/y⁷", "x⁵y⁷", "y⁷/x⁷"], correct: 0 },
+                        { q: "Factorize x²−9x+20.", options: ["(x−2)(x−10)", "(x+4)(x+5)", "(x−4)(x−5)", "(x+4)(x−5)"], correct: 2 },
+                        { q: "Simplify (x²−16)/(x−4), where x≠4.", options: ["x−4", "x+4", "x²+4", "x−16"], correct: 1 },
+                        { q: "Expand (2x−3)².", options: ["4x²−9", "4x²−6x+9", "4x²−12x+9", "4x²+12x+9"], correct: 2 },
+                        { q: "If a+b=7 and ab=10, then a²+b² equals:", options: ["19", "29", "39", "49"], correct: 1 },
+                        { q: "Simplify √50+√8.", options: ["3√2", "7√2", "9√2", "√58"], correct: 1 },
+                        { q: "If x+1/x=5, where x≠0, then x²+1/x² equals:", options: ["15", "23", "25", "27"], correct: 1 },
+                        { q: "The degree of the polynomial 4x⁵−3x²+7 is:", options: ["2", "3", "5", "7"], correct: 2 },
+                        { q: "Factorize x³−8.", options: ["(x−2)(x²+2x+4)", "(x−2)(x²−2x+4)", "(x+2)(x²+2x+4)", "(x−4)(x²+2)"], correct: 0 }
+                    ]
+                },
+                {
+                    title: "Section E — Linear & Quadratic Equations and Inequalities (Q41–Q50)",
+                    questions: [
+                        { q: "Solve 3(2x−1)−4=2x+9.", options: ["x=2", "x=3", "x=4", "x=5"], correct: 2 },
+                        { q: "The roots of x²−7x+12=0 are:", options: ["2 and 6", "3 and 4", "−3 and −4", "1 and 12"], correct: 1 },
+                        { q: "The discriminant of 2x²−4x+5=0 is:", options: ["24", "16", "−24", "−16"], correct: 2 },
+                        { q: "Solve x²−5x+6<0.", options: ["x<2", "x>3", "2<x<3", "x<2 or x>3"], correct: 2 },
+                        { q: "Solve 2x−7≥5.", options: ["x≥6", "x≤6", "x≥1", "x≤1"], correct: 0 },
+                        { q: "The sum of the roots of 3x²+5x−2=0 is:", options: ["5/3", "−5/3", "−2/3", "2/3"], correct: 1 },
+                        { q: "The product of the roots of 2x²−3x−5=0 is:", options: ["−5/2", "3/2", "5/2", "−3/2"], correct: 0 },
+                        { q: "Solve the simultaneous equations x+y=11 and x−y=3.", options: ["x=4, y=7", "x=7, y=4", "x=8, y=3", "x=6, y=5"], correct: 1 },
+                        { q: "If x²−4x+k=0 has equal roots, then k equals:", options: ["2", "4", "8", "16"], correct: 1 },
+                        { q: "Solve −3x+6>15.", options: ["x>−3", "x<−3", "x>3", "x<3"], correct: 1 }
+                    ]
+                },
+                {
+                    title: "Section F — Population, Sample and Central Tendency (Q51–Q60)",
+                    questions: [
+                        { q: "A researcher studies the heights of all 2,000 students at a university. These 2,000 students represent the:", options: ["Sample", "Population", "Variable", "Statistic"], correct: 1 },
+                        { q: "From 500 construction workers, a researcher selects 50 workers for a safety survey. The 50 workers are the:", options: ["Population", "Census", "Sample", "Parameter"], correct: 2 },
+                        { q: "Find the mean of 12,15,18,21,24.", options: ["16", "18", "19", "20"], correct: 1 },
+                        { q: "Find the median of 7,2,11,4,9,13,5.", options: ["5", "7", "9", "11"], correct: 1 },
+                        { q: "Find the mode of 3,5,5,7,8,8,8,9.", options: ["5", "7", "8", "9"], correct: 2 },
+                        { q: "The mean of five observations is 16. Four observations are 10,12,18 and 20. The fifth observation is:", options: ["15", "18", "20", "24"], correct: 2 },
+                        { q: "A student's marks are 70,80 and 90, with respective weights of 20%,30% and 50%. The weighted mean is:", options: ["79", "80", "83", "85"], correct: 2 },
+                        { q: "Which measure of central tendency is generally most affected by an extreme outlier?", options: ["Median", "Mode", "Mean", "None of these"], correct: 2 },
+                        { q: "If every observation in a dataset is increased by 5, its mean:", options: ["Increases by 5", "Decreases by 5", "Remains unchanged", "Is multiplied by 5"], correct: 0 },
+                        { q: "A dataset has an even number of observations. After sorting them, its median is:", options: ["The smallest observation", "The largest observation", "The average of the two middle observations", "Always the mode"], correct: 2 }
+                    ]
+                },
+                {
+                    title: "Section G — Dispersion and Data Interpretation (Q61–Q70)",
+                    questions: [
+                        { q: "Find the range of 14,6,19,11,8.", options: ["11", "12", "13", "14"], correct: 2 },
+                        { q: "If every value in a dataset is multiplied by 3, the variance becomes:", options: ["Three times the original variance", "Six times the original variance", "Nine times the original variance", "Unchanged"], correct: 2 },
+                        { q: "For the data 2,4,6, the population variance is:", options: ["2/3", "2", "8/3", "4"], correct: 2 },
+                        { q: "The standard deviation is the:", options: ["Square of variance", "Square root of variance", "Square root of mean", "Difference between maximum and minimum"], correct: 1 },
+                        { q: "If two datasets have the same mean, the dataset with the larger standard deviation generally has:", options: ["Less spread", "More spread", "The same spread", "No observations"], correct: 1 },
+                        { q: "A dataset has a mean of 50 and a standard deviation of 5. Its coefficient of variation is:", options: ["5%", "10%", "15%", "20%"], correct: 1 },
+                        { q: "A frequency table has values x=1,2,3 with frequencies 2,3,5, respectively. The mean is:", options: ["2.0", "2.2", "2.3", "2.5"], correct: 2 },
+                        { q: "A frequency distribution has class midpoints 10,20 and 30, with frequencies 2,3 and 5. Its mean is:", options: ["20", "22", "23", "25"], correct: 2 },
+                        { q: "A concrete test has compressive strengths of 20,25,25,30 and 50 MPa. Which measure is least affected by the unusually high value of 50 MPa?", options: ["Mean", "Median", "Range", "Maximum"], correct: 1 },
+                        { q: "A dataset has Q₁=18 and Q₃=42. Its interquartile range is:", options: ["20", "24", "30", "60"], correct: 1 }
+                    ]
+                },
+                {
+                    title: "Section H — Rules of Counting (Q71–Q80)",
+                    questions: [
+                        { q: "A student has 4 shirts and 3 pairs of trousers. The number of different shirt-trouser combinations is:", options: ["7", "12", "16", "24"], correct: 1 },
+                        { q: "How many different arrangements can be made using all the letters of the word CAT?", options: ["3", "6", "9", "12"], correct: 1 },
+                        { q: "The number of ways to select 3 students from 8 students is:", options: ["24", "48", "56", "336"], correct: 2 },
+                        { q: "In how many ways can 5 distinct books be arranged on a shelf?", options: ["25", "60", "120", "240"], correct: 2 },
+                        { q: "A committee of 2 is selected from 6 people. How many selections are possible?", options: ["12", "15", "30", "36"], correct: 1 },
+                        { q: "How many distinct arrangements can be formed from the letters of LEVEL?", options: ["20", "30", "60", "120"], correct: 1 },
+                        { q: "A 4-digit code is formed using digits 0–9, repetition is allowed, and the first digit may be zero. The number of possible codes is:", options: ["1,000", "5,040", "9,000", "10,000"], correct: 3 },
+                        { q: "From 7 candidates, a president and a secretary are selected. One person cannot hold both positions. The number of possible selections is:", options: ["21", "35", "42", "49"], correct: 2 },
+                        { q: "How many diagonals does a convex octagon have?", options: ["16", "20", "24", "28"], correct: 1 },
+                        { q: "A student must answer 5 questions selected from 8, with no restrictions. How many selections are possible?", options: ["40", "56", "336", "6,720"], correct: 1 }
+                    ]
+                },
+                {
+                    title: "Section I — Basic Probability (Q81–Q90)",
+                    questions: [
+                        { q: "A fair die is rolled once. The probability of obtaining a prime number is:", options: ["1/3", "1/2", "2/3", "5/6"], correct: 2 },
+                        { q: "Two fair coins are tossed. The probability of obtaining exactly one head is:", options: ["1/4", "1/2", "3/4", "1"], correct: 1 },
+                        { q: "A bag contains 5 red, 3 blue and 2 green balls. One ball is selected at random. The probability that it is not blue is:", options: ["3/10", "1/2", "7/10", "4/5"], correct: 2 },
+                        { q: "Two fair dice are rolled. The probability that their sum is 7 is:", options: ["1/12", "1/6", "1/4", "7/36"], correct: 1 },
+                        { q: "If P(A)=0.6, P(B)=0.5 and P(A∩B)=0.3, then P(A∪B) is:", options: ["0.2", "0.3", "0.8", "1.1"], correct: 2 },
+                        { q: "Events A and B are independent. If P(A)=0.4 and P(B)=0.7, then P(A∩B) is:", options: ["0.11", "0.28", "0.70", "1.10"], correct: 1 },
+                        { q: "A card is drawn from a standard 52-card deck. The probability of drawing an ace is:", options: ["1/52", "1/26", "1/13", "4/13"], correct: 2 },
+                        { q: "If P(A)=0.35, then P(A') is:", options: ["0.35", "0.55", "0.65", "1.35"], correct: 2 },
+                        { q: "If P(A)=0.4, P(B)=0.5 and events A and B are mutually exclusive, then P(A∪B) is:", options: ["0.1", "0.2", "0.9", "1.0"], correct: 2 },
+                        { q: "A box contains 4 defective and 6 non-defective components. Two components are drawn without replacement. The probability that both are defective is:", options: ["2/15", "4/25", "1/6", "2/5"], correct: 0 }
+                    ]
+                },
+                {
+                    title: "Section J — Random Variables and Probability Distributions (Q91–Q100)",
+                    questions: [
+                        { q: "A random variable is best described as:", options: ["An event that always occurs", "A numerical value assigned to each outcome of a random experiment", "A fixed constant only", "A sample space without outcomes"], correct: 1 },
+                        { q: "A fair coin is tossed twice. Let X be the number of heads. The probability P(X=1) is:", options: ["1/4", "1/2", "3/4", "1"], correct: 1 },
+                        { q: "A random variable X has the distribution: X:0,1,2 with P(X):0.2,0.5,0.3. The expected value E(X) is:", options: ["0.8", "1.0", "1.1", "1.3"], correct: 2 },
+                        { q: "For a fair six-sided die, let X be the number obtained. The expected value E(X) is:", options: ["3", "3.5", "4", "4.5"], correct: 1 },
+                        { q: "Which condition must hold for a discrete probability distribution?", options: ["Every probability is greater than 1", "The sum of all probabilities is 0", "Every probability lies between 0 and 1, and their sum is 1", "All outcomes must have equal probabilities"], correct: 2 },
+                        { q: "A binomial experiment has n=5 independent trials and success probability p=0.2. The probability of exactly one success is:", options: ["0.08192", "0.2048", "0.4096", "0.67232"], correct: 2 },
+                        { q: "For a binomial random variable with n=20 and p=0.3, its mean is:", options: ["3", "5", "6", "14"], correct: 2 },
+                        { q: "For a binomial random variable with n=10 and p=0.4, its variance is:", options: ["2.4", "4.0", "6.0", "10.0"], correct: 0 },
+                        { q: "A random variable has E(X)=4 and E(X²)=22. Its variance is:", options: ["4", "6", "12", "18"], correct: 1 },
+                        { q: "The number of defects in a concrete sample is modeled by a Poisson distribution with parameter λ=2. The probability of zero defects is:", options: ["2e⁻²", "e⁻²", "1−e⁻²", "e⁻¹"], correct: 1 }
+                    ]
+                }
+            ];
+
+            // ------------------------------------------------------------
+            // 2. RENDER the quiz
+            // ------------------------------------------------------------
+            const root = document.getElementById('quiz-root');
+            let globalQuestionCounter = 1;
+
+            sections.forEach((section, secIndex) => {
+                const sectionEl = document.createElement('div');
+                sectionEl.className = 'section-card';
+
+                const titleEl = document.createElement('div');
+                titleEl.className = 'section-title';
+                titleEl.innerHTML = `<i class="fas fa-layer-group"></i> ${section.title}`;
+                sectionEl.appendChild(titleEl);
+
+                section.questions.forEach((qData, qIndex) => {
+                    const qNum = globalQuestionCounter++;
+                    const qItem = document.createElement('div');
+                    qItem.className = 'question-item';
+
+                    const qText = document.createElement('div');
+                    qText.className = 'question-text';
+                    qText.innerHTML = `<span class="q-num">Q${qNum}</span> ${qData.q}`;
+                    qItem.appendChild(qText);
+
+                    const optionsGrid = document.createElement('div');
+                    optionsGrid.className = 'options-grid';
+
+                    const correctIndex = qData.correct;
+
+                    qData.options.forEach((optText, optIndex) => {
+                        const optDiv = document.createElement('div');
+                        optDiv.className = 'option';
+                        const letter = String.fromCharCode(65 + optIndex);
+                        optDiv.innerHTML = `<span class="letter">${letter}</span> <span>${optText}</span>`;
+                        optDiv.dataset.optionIndex = optIndex;
+
+                        optDiv.addEventListener('click', function(e) {
+                            const parentGrid = this.parentElement;
+                            if (parentGrid.querySelector('.disabled')) return;
+
+                            const chosenIdx = parseInt(this.dataset.optionIndex);
+                            const isCorrect = (chosenIdx === correctIndex);
+
+                            const allOptions = parentGrid.querySelectorAll('.option');
+                            allOptions.forEach(opt => {
+                                opt.classList.add('disabled');
+                                opt.style.pointerEvents = 'none';
+                            });
+
+                            if (isCorrect) {
+                                this.classList.add('selected-correct');
+                            } else {
+                                this.classList.add('selected-incorrect');
+                                // Highlight the correct answer in green for learning
+                                allOptions.forEach(opt => {
+                                    const idx = parseInt(opt.dataset.optionIndex);
+                                    if (idx === correctIndex && !opt.classList.contains('selected-correct')) {
+                                        opt.classList.add('selected-correct');
+                                        opt.style.opacity = '0.85';
+                                    }
+                                });
+                            }
+                        });
+
+                        optionsGrid.appendChild(optDiv);
+                    });
+
+                    qItem.appendChild(optionsGrid);
+                    sectionEl.appendChild(qItem);
+                });
+
+                root.appendChild(sectionEl);
+            });
+        })();
+    </script>
+</body>
+</html>
